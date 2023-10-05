@@ -1,0 +1,9 @@
+{% load crispy_forms_tags %}
+<form class="search-form" style="margin-left: 25px;margin-right: 25px;padding-left: 25px;padding-right: 25px;">
+           {% csrf_token %}
+           {% crispy search_form %}
+    <div class="input-group">
+
+    </div>
+</form>
+<br>

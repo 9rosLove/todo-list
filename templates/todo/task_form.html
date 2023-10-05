@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8 mx-auto">
+  <h1 class="mt-5 mb-4 text-center">{{ object|yesno:"Update,Create" }} task</h1>
+    <br>
+      <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {{ form|crispy }}
+
+      <div class="form-group text-center mt-5 pb-5">
+          <button type="button" onclick="history.back()" class="btn btn-secondary" style="margin-right: 350px">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="margin-left: 200px">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

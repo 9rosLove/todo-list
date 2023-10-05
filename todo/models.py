@@ -22,14 +22,12 @@ class Task(models.Model):
         ordering = [ "is_done", "-deadline", "-created_at"]
 
     @property
-    def get_short_tags(self):
+    def get_tag_list(self):
         tags = self.tags.all()
         short_list = ", ".join(
             f"{tags}"
-            for tags in tags[:2]
+            for tags in tags
         )
-        if len(tags) > 2:
-            short_list += "..."
         return short_list
 
     def __str__(self):

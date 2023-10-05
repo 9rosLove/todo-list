@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from todo.forms import TaskForm
+from todo.forms import TaskForm, TaskSearchForm, TagSearchForm
 from todo.models import Task, Tag
 
 
@@ -21,13 +21,27 @@ def index(request):
     return render(request, "todo/index.html", context)
 
 
-class TaskDetailView(generic.DetailView):
-    model = Task
-
-
 class TaskListView(generic.ListView):
     model = Task
     paginate_by = 10
+    queryset = Task.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(TaskListView, self).get_context_data(**kwargs)
+        content = self.request.GET.get("content", "")
+        context["search_form"] = TaskSearchForm(
+            initial={"content": content}
+        )
+        return context
+
+    def get_queryset(self):
+        form = TaskSearchForm(self.request.GET)
+
+        if form.is_valid():
+            return self.queryset.filter(
+                content__istartswith=form.cleaned_data["content"]
+            )
+        return self.queryset
 
 
 class TaskCreateView(generic.CreateView):
@@ -50,6 +64,24 @@ class TaskDeleteView(generic.DeleteView):
 class TagListView(generic.ListView):
     model = Tag
     paginate_by = 15
+    queryset = Tag.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(TagListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = TagSearchForm(
+            initial={"name": name}
+        )
+        return context
+
+    def get_queryset(self):
+        form = TagSearchForm(self.request.GET)
+
+        if form.is_valid():
+            return self.queryset.filter(
+                name__istartswith=form.cleaned_data["name"]
+            )
+        return self.queryset
 
 
 class TagCreateView(generic.CreateView):

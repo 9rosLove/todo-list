@@ -10,11 +10,7 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = (
-        "created_at",
-        "deadline",
-        "is_done"
-    )
+    list_display = ("created_at", "deadline", "is_done")
     search_fields = ("tags",)
     list_filter = (
         "tags",
@@ -22,5 +18,5 @@ class TaskAdmin(admin.ModelAdmin):
         "tags",
         "created_at",
         "deadline",
-        "is_done"
+        "is_done",
     )

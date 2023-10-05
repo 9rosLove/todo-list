@@ -19,7 +19,18 @@ class Task(models.Model):
     tags = models.ManyToManyField(to=Tag, related_name="tasks")
 
     class Meta:
-        ordering = ["is_done", "-created_at"]
+        ordering = ["-deadline", "is_done", "-created_at"]
+
+    @property
+    def get_short_tags(self):
+        tags = self.tags.all()
+        short_list = ", ".join(
+            f"{tags}"
+            for tags in tags[:2]
+        )
+        if len(tags) > 2:
+            short_list += "..."
+        return short_list
 
     def __str__(self):
         return (

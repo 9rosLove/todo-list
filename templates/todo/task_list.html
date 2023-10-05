@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {<section>
+    <div class="container" style="padding-top: 100px">
+        {% include "includes/search_line.html" %}
+                                    <div class="col-auto" style="float:right">
+                      <button class="btn btn-outline-secondary"><a href="{% url "todo:task-create" %}" style="color: black">Add</a></button>
+
+                        </div>
+        <div class="row">
+          {% for task in task_list %}
+<div class="col-auto col-sm-12 col-md-12 col-lg-4 col-xl-4" style="padding-top: 15px;padding-bottom: 15px;padding-right: 15px;padding-left: 15px;">
+ <div class="card">
+    <h5 class="card-header">
+         {% if task.is_done %}
+      Done
+           {% else %}
+           To Do
+    {% endif %}
+                        <div style="float: right">
+                      <button class="btn btn-outline-secondary"><a href="{% url "todo:task-done" pk=task.id %}" style="color: black">Done</a></button>
+
+                        </div>
+    </h5>
+
+    <div class="card-body">
+        <h5 class="card-title">Tags: {{ task.get_tag_list }}</h5>
+        <h7 class="text-muted card-subtitle mb-2">Crated at: {{ task.created_at }}</h7>
+      {% if task.deadline %}
+      <br>
+                <h7 class="text-muted card-subtitle mb-2">Deadline at: {{ task.deadline }}</h7>
+      {% endif %}
+        <p class="card-text">{{ task.content }}</p><a class="card-link" href="{% url "todo:task-update" pk=task.id %}" style="color: grey">Update</a><a class="card-link" href="{% url "todo:task-delete" pk=task.id %}" style="color: grey">Delete</a>
+    </div>
+
+</div>
+
+</div>
+          {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

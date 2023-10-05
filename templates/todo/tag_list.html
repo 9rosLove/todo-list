@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% include "includes/search_line.html" %}
+{% block content %}
+
+
+
+
+  <section>
+    <div class="container" style="padding-top: 100px">
+    {% include "includes/search_line.html" %}
+                                <div class="col-auto" style="float:right">
+                      <button class="btn btn-outline-secondary"><a href="{% url "todo:tag-create" %}" style="color: black">Add</a></button>
+
+                        </div>
+        <div class="row">
+          {% for tag in tag_list %}
+<div class="col-auto col-sm-12 col-md-12 col-lg-4 col-xl-4" style="padding-top: 15px;padding-bottom: 15px;padding-right: 15px;padding-left: 15px;">
+ <div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ tag }}</h5>
+<a class="card-link" href="{% url "todo:tag-update" pk=tag.id %}" style="color: grey">Update</a><a class="card-link" href="{% url "todo:tag-delete" pk=tag.id %}" style="color: grey">Delete</a>
+
+    </div>
+</div>
+</div>
+          {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
